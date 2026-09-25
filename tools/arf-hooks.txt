@@ -1,0 +1,3 @@
+# Arc Rise Fantasia: the functions tools/arf.cpp replaces, on top of
+# wiikit/runtime/hooks.txt:
+#     python -m wiikit.recomp build/extract/sys/main.dol --out build/recomp \n#         --symbols build/names.tsv --hooks tools/arf-hooks.txt

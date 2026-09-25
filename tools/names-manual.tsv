@@ -1,0 +1,39 @@
+addr	name	evidence
+80224D60	PPCHalt	sync; nop; li r3,0; nop; b back: the SDK's halt loop, OSPanic's last call (80228430)
+8022A458	OSFatal	OSFatal.o order (ScreenReport, ConfigureVideo, OSFatal, Halt, as in Victorious); stops audio, calls VIInit, VISetBlack, VIFlush
+8022CE80	RealMode	clrlwi r3,r3,2; mtsrr0; rfi: the only such sequence in the DOL
+8022D2E0	__OSReboot	called by OSRestart where Victorious's OSRestart calls __OSReboot, between __OSShutdownDevices and __OSInitSTM
+8022D7B0	OSRestart	OSReset.o order and size (208, Victorious 212); __OSUnRegisterStateEvent, __OSShutdownDevices three times, __OSInitSTM, OSPanic as in Victorious
+8023D79C	__VIRetraceHandler	VI.o order: before VISetPreRetraceCallback/VISetPostRetraceCallback (68 bytes each), getTiming, __VIInit, VIInit (1352, as in Victorious); 2064 bytes, Victorious 2060
+8023E35C	VIInit	VI.o order; 1352 bytes as in Victorious; called by OSFatal
+802A99D8	__wpadInitSub	prints "WPADInit()" (the string pass named it WPADInit); 528 bytes; called by WPADInit
+802A9BE8	WPADInit	112 bytes as in Victorious; the first call of KPADInit (8034CF98)
+802A9C58	WPADStartFastSimpleSync	WPAD.o order: the five 4-byte functions after WPADInit, as in Victorious
+802A9C5C	WPADStopSimpleSync	WPAD.o order
+802A9C60	WPADSetSimpleSyncCallback	WPAD.o order
+802A9C64	WPADRegisterAllocator	WPAD.o order
+802A9C68	WPADGetStatus	WPAD.o order; its result compared with 3 (WPAD_STATE_SETUP) by the KPAD status copy (8034A474)
+802A9CB0	WPADGetSensorBarPosition	WPAD.o order: 52 bytes after WPADGetRadioSensitivity, as in Victorious
+802AAE60	WPADDisconnect	WPAD.o order: 196 bytes after __wpadDisconnectCallback (Victorious 192); called by the game when a probe finds no Remote
+802AB11C	WPADGetDataFormat	WPAD.o order after WPADSetExtensionCallback; returns a word of the channel's control block
+802AB164	WPADSetDataFormat	WPAD.o order: 180 bytes (Victorious 192)
+802AB26C	WPADGetInfoAsync	WPAD.o order: 544 bytes after __wpadInfoCallback, as in Victorious
+802AB5C0	WPADControlLed	WPAD.o order: 488 bytes after WPADIsMotorEnabled, as in Victorious
+802AB854	WPADRead	WPAD.o order before WPADSetAutoSamplingBuf; copies 0x2A, 0x32, 0x36 or 0x5A bytes by data format; called by KPAD's sampling callback
+802ABE0C	WPADIsSpeakerEnabled	WPAD.o order: 68 bytes before WPADControlSpeaker, as in Victorious
+802ABE50	WPADControlSpeaker	WPAD.o order: 5660 bytes (Victorious 5628)
+802AD46C	WPADGetSpeakerVolume	WPAD.o order: 52 bytes, as in Victorious
+802AD4A0	WPADSetSpeakerVolume	WPAD.o order: 80 bytes, as in Victorious
+802AD938	WPADControlDpd	WPAD.o order: the last, 4220 bytes (Victorious 4224)
+8034A324	kpad_wpad_status_core	thunk: kpad_wpad_status(chan, a 16-sample buffer of 0x2A, WPAD_FMT_CORE); called by the game's input read (8020F08C)
+8034A334	kpad_wpad_status_fs	thunk: kpad_wpad_status(chan, 16 x 0x32, 1: the Nunchuk)
+8034A344	kpad_wpad_status_cl	thunk: kpad_wpad_status(chan, 16 x 0x36, 2: the Classic)
+8034A354	kpad_wpad_status	no symbol source names it: KPAD's (it reads KPAD's per-channel state, 0x538 bytes at 804FA518) copy of the WPAD samples it keeps (16 x 0x38) of one device into buf, newest at WPADGetLatestIndexInBuf(chan); returns buf. The game reads the Classic's sticks, triggers and buttons from it
+8034A564	KPADSetPosParam	KPAD object order: first of four 28-byte parameter setters, as in DQS and Victorious
+8034A580	KPADSetAccParam	KPAD object order: the second setter
+8034C830	KPADRead	KPAD object order (after clamp_stick_circle/cross, 296 and 548 bytes as in Victorious); 1836 bytes (DQS 1816); the game calls it as KPADRead(chan, buf, 16), samples of 0x84 bytes
+8034CF5C	KPADInit	references __KPADVersion ("<< RVL_SDK - KPAD"); calls WPADInit, clears KPAD's 4 x 0x538 bytes of state
+8034D250	KPADReset	KPAD object order; 160 bytes as in Victorious
+8034D2F0	KPADDisableDPD	stores 0 at KPAD's channel state +0x520; the same code as Victorious's
+8034D30C	KPADEnableDPD	stores 1 at the same byte
+8034D328	KPADiSamplingCallback	KPAD object order after the DPD switches; WPADProbe, WPADRead
