@@ -46,5 +46,7 @@ Victorious's ELF named (`OSLoadContext`, `OSShutdownSystem`,
 all 46 the game has at the same addresses; that build, recompiled and
 booted, reaches the same screens as before. `tools/dolphin.py` finds
 Dolphin on the PATH, through `DOLPHIN` or `--dolphin`, not at a local
-path; session 1's copy had one, to be rewritten out of the history before
-the first push.
+path (in the whole history: session 1's copy had one, rewritten out
+before the first push, the rest of every commit unchanged), and the
+repository published at
+[vs-sr-dev/pc-arcrisefantasia](https://github.com/vs-sr-dev/pc-arcrisefantasia).
