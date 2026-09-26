@@ -36,3 +36,15 @@ Build and run:
 `build/fonts` holds the boot ROM's fonts and `dsp_coef.bin` (copied from
 the other ports' builds). `WIIKIT_PERF=1` reports a frame's cost every
 second; F12 writes the next frame's GX commands to the working directory.
+
+Housekeeping (2026-09-26, a session of publication only): wiikit is
+pushed up to `688d1bf`; Victorious, DQS and Conduit 2 are published. This
+repository is prepared for GitHub: the README says where the port stands
+and how to play; `tools/names-manual.tsv` names the three hooks only
+Victorious's ELF named (`OSLoadContext`, `OSShutdownSystem`,
+`WPADSendStreamData`), so `names.py` with Dolphin's database alone names
+all 46 the game has at the same addresses; that build, recompiled and
+booted, reaches the same screens as before. `tools/dolphin.py` finds
+Dolphin on the PATH, through `DOLPHIN` or `--dolphin`, not at a local
+path; session 1's copy had one, to be rewritten out of the history before
+the first push.
