@@ -17,7 +17,7 @@ The RVL SDK of late 2007, every library `0x4199_60831`:
 | NW4R G3D, NW4R SND | Apr 2 2008 |
 
 None of these builds is shared with the other wiikit ports (Victorious's
-are of 2010, the stripped 2007 game's of 2006–07), so no function is matched
+are of 2010, Dragon Quest Swords's of 2006–07), so no function is matched
 word for word from a symbolised executable.
 
 Middleware: NintendoWare (G3D models, SND sound), CRI (ADX voices, Sofdec
@@ -30,15 +30,22 @@ library is linked and called.
 
 | Source | Names |
 |---|---|
-| by hand, each with its evidence (`tools/names-manual.tsv`) | 38 |
+| by hand, each with its evidence (`tools/names-manual.tsv`) | 41 |
 | SDK functions that print their own name (`"WPADInit()"`) | 40 |
-| signatures (`tools/sigmatch.py`: Dolphin's `totaldb.dsy`, Victorious's ELF), unique ones | 1 452 |
+| signatures (`tools/sigmatch.py`), unique ones: Dolphin's `totaldb.dsy` alone | 1 311 |
+| the same with Victorious's ELF too (`--elf`) | 1 449 |
 
-1 530 in all. The hand names are what the runtime hooks and the signatures
-miss: the 2007 KPAD and much of WPAD (their builds are in no signature
-database), aligned object by object with Victorious's ELF, by order and
-size, and checked by what calls what; `PPCHalt`, `RealMode`,
-`__VIRetraceHandler`, `OSFatal`, `OSRestart`, `__OSReboot` the same way.
+1 392 in all from Dolphin's database, 1 530 with Victorious's ELF. The hand
+names are what the runtime hooks and the signatures miss: the 2007 KPAD and
+much of WPAD (their builds are in no signature database), aligned object by
+object with Victorious's ELF, by order and size, and checked by what calls
+what; `PPCHalt`, `RealMode`, `__VIRetraceHandler`, `OSFatal`, `OSRestart`,
+`__OSReboot` the same way. Three hooks only Victorious's ELF named by
+signature (`OSLoadContext`, `OSShutdownSystem`, `WPADSendStreamData`) are
+hand names too, placed next to functions Dolphin's database names, so the
+database alone names every hook the game has (46 of the runtime's 53), at
+the same addresses; the recompiled code is the same but for the names of
+functions no hook needs and its comments.
 Two things only this SDK has: `KPADRead` is the whole reader (no
 `KPADiRead`, no `KPADReadEx`), and KPAD keeps a copy of WPAD's samples that
 games may read (`kpad_wpad_status`, `08-input.md`).

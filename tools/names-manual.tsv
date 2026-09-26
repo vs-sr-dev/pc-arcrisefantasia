@@ -1,8 +1,10 @@
 addr	name	evidence
 80224D60	PPCHalt	sync; nop; li r3,0; nop; b back: the SDK's halt loop, OSPanic's last call (80228430)
+80227DD4	OSLoadContext	right after OSSaveContext (Dolphin's, 0x80 bytes): lmw of the GPRs, the GQRs (mtspr gqr1..gqr7), CR, LR, CTR, XER, SRR0/SRR1 and rfi: the one function a thread switch returns through (Victorious's ELF only has its signature)
 8022A458	OSFatal	OSFatal.o order (ScreenReport, ConfigureVideo, OSFatal, Halt, as in Victorious); stops audio, calls VIInit, VISetBlack, VIFlush
 8022CE80	RealMode	clrlwi r3,r3,2; mtsrr0; rfi: the only such sequence in the DOL
 8022D2E0	__OSReboot	called by OSRestart where Victorious's OSRestart calls __OSReboot, between __OSShutdownDevices and __OSInitSTM
+8022D694	OSShutdownSystem	OSReset.o order: after __OSShutdownDevices (Dolphin's), just before OSRestart; calls SCInit, __OSUnRegisterStateEvent, __DVDPrepareReset, __OSReadStateFlags (Dolphin's) and __OSShutdownDevices with 5 or 2 (Victorious's ELF only has its signature)
 8022D7B0	OSRestart	OSReset.o order and size (208, Victorious 212); __OSUnRegisterStateEvent, __OSShutdownDevices three times, __OSInitSTM, OSPanic as in Victorious
 8023D79C	__VIRetraceHandler	VI.o order: before VISetPreRetraceCallback/VISetPostRetraceCallback (68 bytes each), getTiming, __VIInit, VIInit (1352, as in Victorious); 2064 bytes, Victorious 2060
 8023E35C	VIInit	VI.o order; 1352 bytes as in Victorious; called by OSFatal
@@ -24,6 +26,7 @@ addr	name	evidence
 802ABE50	WPADControlSpeaker	WPAD.o order: 5660 bytes (Victorious 5628)
 802AD46C	WPADGetSpeakerVolume	WPAD.o order: 52 bytes, as in Victorious
 802AD4A0	WPADSetSpeakerVolume	WPAD.o order: 80 bytes, as in Victorious
+802AD6AC	WPADSendStreamData	right after WPADCanSendStreamData (Dolphin's, 0x84 bytes); calls IsBusyStream (Dolphin's), returns -1 or -2 when the channel cannot stream; 0x210 bytes; hooked, it carries the Remote speaker's sounds (Victorious's ELF only has its signature)
 802AD938	WPADControlDpd	WPAD.o order: the last, 4220 bytes (Victorious 4224)
 8034A324	kpad_wpad_status_core	thunk: kpad_wpad_status(chan, a 16-sample buffer of 0x2A, WPAD_FMT_CORE); called by the game's input read (8020F08C)
 8034A334	kpad_wpad_status_fs	thunk: kpad_wpad_status(chan, 16 x 0x32, 1: the Nunchuk)

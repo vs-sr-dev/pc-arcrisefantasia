@@ -3,9 +3,9 @@
 This port takes [wiikit](https://github.com/vs-sr-dev/wiikit) as a
 submodule at `wiikit/`, like pc-victorious, pc-dragonquestswords and
 pc-conduit2. It is its fourth user and the third with a stripped
-executable. wiikit is public and does not name this port; changes made for
-it are described by what they do, and checked on every port before they go
-in.
+executable. Changes made for it are described by what they do (wiikit's
+commits of session 1 call it "a stripped 2009 game": it was not public
+yet), and checked on every port before they go in.
 
 ## What this port used as it is (session 1)
 
@@ -33,10 +33,10 @@ frame in a 16 MB ring, and a quarter index of 4 at the exact end): models
 and textures vanished mid-battle.
 
 Checked on every port before they went in: Victorious self-test 15/15 and
-to its Auditions episode; the stripped 2007 PAL game to its Adventure Logs;
+to its Auditions episode; Dragon Quest Swords to its Adventure Logs;
 Conduit 2 to its title; the same screens as before, frames equal where the
-timing matches. Their submodules moved on (Victorious `bfd5872`, DQS
-`0071b4f`, Conduit 2 `ba601c1`; local commits).
+timing matches. Their submodules moved on (Victorious `13a271e`, DQS
+`3e81802`, Conduit 2 `3ac8a32`, as published).
 
 ## What it will give wiikit
 
